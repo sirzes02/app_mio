@@ -4,6 +4,7 @@ import React from 'react';
 import Header from './components/Header';
 import CloseSesion from './components/CloseSesion';
 import Map from './pages/Maps';
+import Station from './pages/Station';
 import { useState } from 'react';
 import { ThemeName } from './data/MapStyle';
 
@@ -30,6 +31,23 @@ const Routes: React.FC = () => {
               />
             ),
             headerRight: () => <CloseSesion />,
+          }}
+        />
+        <Stack.Screen
+          name="Estacion"
+          component={Station}
+          options={{
+            headerStyle: {
+              backgroundColor: themeName === 'dark' ? 'black' : 'white',
+            },
+            headerTitle: () => (
+              <Header
+                iconName="bus"
+                title="Estacion"
+                themeName={themeName}
+                setThemeName={setThemeName}
+              />
+            ),
           }}
         />
       </Stack.Navigator>

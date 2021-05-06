@@ -40,7 +40,8 @@ const Map: React.FC<Props> = ({ currentTheme }) => {
 
           setCurrentLatitude(latitude);
           setCurrentLongitude(longitude);
-          setLoading(false);
+
+          fetchData();
         },
         error => {
           console.log(error.code, error.message);
@@ -57,20 +58,16 @@ const Map: React.FC<Props> = ({ currentTheme }) => {
   };
 
   const fetchData = async () => {
-    const data: FirebaseFirestoreTypes.DocumentData[] = [];
     const stationsCollections = (
       await firestore().collection('estaciones').get()
     ).docs;
 
-    stationsCollections.forEach(collection => data.push(collection.data()));
-
-    setStations(data);
-    console.log(data);
+    setStations([...stationsCollections.map(station => station.data())]);
+    setLoading(false);
   };
 
   useEffect(() => {
     checkPermissions();
-    fetchData();
   }, []);
 
   return (
@@ -91,13 +88,13 @@ const Map: React.FC<Props> = ({ currentTheme }) => {
             longitudeDelta: 0.0421,
           }}>
           {stations.map(
-            ({ latitude, longitude, name, description, id }, index) => (
+            ({ latitude, longitude, name, description, id, votes }, index) => (
               <Marker
                 key={index}
                 title={name}
                 description={description}
                 coordinate={{ latitude, longitude }}>
-                <Callout name={name} id={id} />
+                <Callout name={name} id={id} votes={votes} />
               </Marker>
             ),
           )}

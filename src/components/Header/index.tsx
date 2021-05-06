@@ -19,6 +19,8 @@ const components: React.FC<Props> = ({
   themeName,
   setThemeName,
 }) => {
+  const theme: 'black' | 'white' = themeName === 'light' ? 'black' : 'white';
+
   function toggleTheme() {
     setThemeName(themeName === 'light' ? 'dark' : 'light');
   }
@@ -26,18 +28,17 @@ const components: React.FC<Props> = ({
   return (
     <View style={styles.headerContainer}>
       <Icon
-        style={
-          themeName === 'light' ? styles.iconStyleLight : styles.iconStyleDark
-        }
+        style={{ color: theme }}
         name={iconName}
         size={23}
         light
         onPress={toggleTheme}
       />
       <Text
-        style={
-          themeName === 'light' ? styles.titleStyleLight : styles.titleStyleDark
-        }>
+        style={{
+          ...styles.titleStyle,
+          color: theme,
+        }}>
         {title}
       </Text>
     </View>

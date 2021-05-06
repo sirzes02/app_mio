@@ -6,21 +6,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  titleStyleLight: {
+  titleStyle: {
     paddingLeft: 10,
     fontSize: 20,
-    color: 'black',
-  },
-  titleStyleDark: {
-    paddingLeft: 10,
-    fontSize: 20,
-    color: 'white',
-  },
-  iconStyleLight: {
-    color: 'black',
-  },
-  iconStyleDark: {
-    color: 'white',
   },
 });
 

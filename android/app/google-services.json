@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "118451873660",
+    "project_id": "mioapp-312822",
+    "storage_bucket": "mioapp-312822.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:118451873660:android:89f93aea8c4f61a89166f9",
+        "android_client_info": {
+          "package_name": "com.app_mio"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "118451873660-n3co2g549t0pvtoj1a4vscrgp30873bm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app_mio",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "118451873660-d18102sehdhroke95qpctt84tkaqlbq9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATvzYXBALAkpR-1LPtb5hBRNprjTaiQ0o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "118451873660-d18102sehdhroke95qpctt84tkaqlbq9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

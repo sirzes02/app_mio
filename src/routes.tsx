@@ -1,23 +1,61 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from './components/Header';
 import CloseSesion from './components/CloseSesion';
 import Map from './pages/Maps';
 import Station from './pages/Station';
-import { useState } from 'react';
+import Login from './pages/Login';
 import { ThemeName } from './data/MapStyle';
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 
 const Routes: React.FC = () => {
   const [themeName, setThemeName] = useState<ThemeName>('light');
+  const [initializing, setInitializing] = useState<boolean>(true);
+  const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
   const Stack = createStackNavigator();
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(user => {
+      setUser(user);
+      if (initializing) setInitializing(false);
+    });
+    return subscriber;
+  }, []);
+
+  if (initializing) return null;
+
+  if (!user) {
+    return (
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{
+              headerStyle: {
+                backgroundColor: themeName === 'dark' ? 'black' : 'white',
+              },
+              headerTitle: () => (
+                <Header
+                  iconName="user"
+                  title="Inicio de Sesión"
+                  themeName={themeName}
+                  setThemeName={setThemeName}
+                />
+              ),
+            }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
+  }
 
   return (
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
           name="Mapa"
-          component={() => <Map currentTheme={themeName} />}
           options={{
             headerStyle: {
               backgroundColor: themeName === 'dark' ? 'black' : 'white',
@@ -25,14 +63,15 @@ const Routes: React.FC = () => {
             headerTitle: () => (
               <Header
                 iconName="map"
-                title="map"
+                title="Mapa"
                 themeName={themeName}
                 setThemeName={setThemeName}
               />
             ),
             headerRight: () => <CloseSesion />,
-          }}
-        />
+          }}>
+          {props => <Map {...props} currentTheme={themeName} />}
+        </Stack.Screen>
         <Stack.Screen
           name="Estacion"
           component={Station}
@@ -43,7 +82,7 @@ const Routes: React.FC = () => {
             headerTitle: () => (
               <Header
                 iconName="bus"
-                title="Estacion"
+                title="Estación"
                 themeName={themeName}
                 setThemeName={setThemeName}
               />

@@ -3,7 +3,9 @@ import { Text, View } from 'react-native';
 import { Callout as Call } from 'react-native-maps';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
+
 import { RootStackParamList } from '../../@types/RoutesTypes';
+
 import styles from './styles';
 
 interface Props {

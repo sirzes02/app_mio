@@ -1,7 +1,7 @@
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import auth from '@react-native-firebase/auth';
 import React from 'react';
-import { TouchableHighlight, Text, Alert } from 'react-native';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { TouchableHighlight, Text } from 'react-native';
+import auth from '@react-native-firebase/auth';
 
 import styles from './styles';
 

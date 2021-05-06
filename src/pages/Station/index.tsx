@@ -1,7 +1,8 @@
+import React from 'react';
 import { RouteProp, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import React from 'react';
 import { Text, TouchableHighlight, View } from 'react-native';
+
 import { RootStackParamList } from '../../@types/RoutesTypes';
 
 type ProfileScreenRouteProp = RouteProp<RootStackParamList, 'Estacion'>;

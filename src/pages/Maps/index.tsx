@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Alert, PermissionsAndroid, View } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
-import Geolocation from 'react-native-geolocation-service';
-import styles from './styles';
 import { ThemeName, themes } from '../../data/MapStyle';
-import Callout from '../../components/Callout';
+import MapView, { Marker } from 'react-native-maps';
 import firestore, {
   FirebaseFirestoreTypes,
 } from '@react-native-firebase/firestore';
+import Geolocation from 'react-native-geolocation-service';
+
+import Callout from '../../components/Callout';
+
+import styles from './styles';
 
 interface Props {
   currentTheme: ThemeName;

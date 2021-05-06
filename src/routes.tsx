@@ -1,13 +1,14 @@
+import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import React, { useEffect, useState } from 'react';
-import Header from './components/Header';
-import CloseSesion from './components/CloseSesion';
-import Map from './pages/Maps';
-import Station from './pages/Station';
-import Login from './pages/Login';
 import { ThemeName } from './data/MapStyle';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+
+import Login from './pages/Login';
+import Header from './components/Header';
+import Map from './pages/Maps';
+import CloseSesion from './components/CloseSesion';
+import Station from './pages/Station';
 
 const Routes: React.FC = () => {
   const [themeName, setThemeName] = useState<ThemeName>('light');

@@ -1,13 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Alert, PermissionsAndroid, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import Geolocation from 'react-native-geolocation-service';
-import Stations, { stationData } from '../../data/Stations';
 import styles from './styles';
 import { ThemeName, themes } from '../../data/MapStyle';
-import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../../@types/RoutesTypes';
+import Callout from '../../components/Callout';
+import firestore, {
+  FirebaseFirestoreTypes,
+} from '@react-native-firebase/firestore';
 
 interface Props {
   currentTheme: ThemeName;
@@ -17,10 +17,9 @@ const Map: React.FC<Props> = ({ currentTheme }) => {
   const [currentLatitude, setCurrentLatitude] = useState<number>(0);
   const [currentLongitude, setCurrentLongitude] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
-  const stations: stationData[] = Stations;
-
-  type mapScreenProp = StackNavigationProp<RootStackParamList, 'Mapa'>;
-  const navigation = useNavigation<mapScreenProp>();
+  const [stations, setStations] = useState<
+    FirebaseFirestoreTypes.DocumentData[]
+  >([]);
 
   const checkPermissions = async () => {
     const granted = await PermissionsAndroid.request(
@@ -57,8 +56,21 @@ const Map: React.FC<Props> = ({ currentTheme }) => {
     }
   };
 
+  const fetchData = async () => {
+    const data: FirebaseFirestoreTypes.DocumentData[] = [];
+    const stationsCollections = (
+      await firestore().collection('estaciones').get()
+    ).docs;
+
+    stationsCollections.forEach(collection => data.push(collection.data()));
+
+    setStations(data);
+    console.log(data);
+  };
+
   useEffect(() => {
     checkPermissions();
+    fetchData();
   }, []);
 
   return (
@@ -84,11 +96,9 @@ const Map: React.FC<Props> = ({ currentTheme }) => {
                 key={index}
                 title={name}
                 description={description}
-                coordinate={{ latitude, longitude }}
-                onCalloutPress={() =>
-                  navigation.navigate('Estacion', { name, id })
-                }
-              />
+                coordinate={{ latitude, longitude }}>
+                <Callout name={name} id={id} />
+              </Marker>
             ),
           )}
         </MapView>

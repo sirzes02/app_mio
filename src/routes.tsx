@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import {
+  DarkTheme,
+  DefaultTheme,
+  NavigationContainer,
+} from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { ThemeName } from './data/MapStyle';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
@@ -28,15 +32,13 @@ const Routes: React.FC = () => {
 
   if (!user) {
     return (
-      <NavigationContainer>
+      <NavigationContainer
+        theme={themeName === 'dark' ? DarkTheme : DefaultTheme}>
         <Stack.Navigator>
           <Stack.Screen
             name="Login"
             component={Login}
             options={{
-              headerStyle: {
-                backgroundColor: themeName === 'dark' ? 'black' : 'white',
-              },
               headerTitle: () => (
                 <Header
                   iconName="user"
@@ -53,14 +55,12 @@ const Routes: React.FC = () => {
   }
 
   return (
-    <NavigationContainer>
+    <NavigationContainer
+      theme={themeName === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack.Navigator>
         <Stack.Screen
           name="Mapa"
           options={{
-            headerStyle: {
-              backgroundColor: themeName === 'dark' ? 'black' : 'white',
-            },
             headerTitle: () => (
               <Header
                 iconName="map"
@@ -77,9 +77,6 @@ const Routes: React.FC = () => {
           name="Estacion"
           component={Station}
           options={{
-            headerStyle: {
-              backgroundColor: themeName === 'dark' ? 'black' : 'white',
-            },
             headerTitle: () => (
               <Header
                 iconName="bus"

@@ -3,6 +3,7 @@ import { Text } from 'react-native';
 import { View } from 'react-native';
 import { ThemeName } from '../../data/MapStyle';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { useTheme } from '@react-navigation/native';
 
 import styles from './styles';
 
@@ -19,7 +20,7 @@ const components: React.FC<Props> = ({
   themeName,
   setThemeName,
 }) => {
-  const theme: 'black' | 'white' = themeName === 'light' ? 'black' : 'white';
+  const { colors } = useTheme();
 
   function toggleTheme() {
     setThemeName(themeName === 'light' ? 'dark' : 'light');
@@ -28,7 +29,7 @@ const components: React.FC<Props> = ({
   return (
     <View style={styles.headerContainer}>
       <Icon
-        style={{ color: theme }}
+        style={{ color: colors.text }}
         name={iconName}
         size={23}
         light
@@ -37,7 +38,7 @@ const components: React.FC<Props> = ({
       <Text
         style={{
           ...styles.titleStyle,
-          color: theme,
+          color: colors.text,
         }}>
         {title}
       </Text>

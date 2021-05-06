@@ -4,8 +4,11 @@ import React from 'react';
 import Header from './components/Header';
 import CloseSesion from './components/CloseSesion';
 import Map from './pages/Maps';
+import { useState } from 'react';
+import { ThemeName } from './data/MapStyle';
 
 const Routes: React.FC = () => {
+  const [themeName, setThemeName] = useState<ThemeName>('light');
   const Stack = createStackNavigator();
 
   return (
@@ -13,9 +16,19 @@ const Routes: React.FC = () => {
       <Stack.Navigator>
         <Stack.Screen
           name="Mapa"
-          component={Map}
+          component={() => <Map currentTheme={themeName} />}
           options={{
-            headerTitle: () => <Header iconName="map" title="map" />,
+            headerStyle: {
+              backgroundColor: themeName === 'dark' ? 'black' : 'white',
+            },
+            headerTitle: () => (
+              <Header
+                iconName="map"
+                title="map"
+                themeName={themeName}
+                setThemeName={setThemeName}
+              />
+            ),
             headerRight: () => <CloseSesion />,
           }}
         />

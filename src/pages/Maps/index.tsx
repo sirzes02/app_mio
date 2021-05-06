@@ -4,8 +4,13 @@ import MapView, { Marker } from 'react-native-maps';
 import Geolocation from 'react-native-geolocation-service';
 import Stations, { stationData } from '../../data/Stations';
 import styles from './styles';
+import { ThemeName, themes } from '../../data/MapStyle';
 
-const Map = () => {
+interface Props {
+  currentTheme: ThemeName;
+}
+
+const Map: React.FC<Props> = ({ currentTheme }) => {
   const [currentLatitude, setCurrentLatitude] = useState<number>(0);
   const [currentLongitude, setCurrentLongitude] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
@@ -55,6 +60,7 @@ const Map = () => {
       {!loading && (
         <MapView
           style={styles.mapStyle}
+          customMapStyle={themes[currentTheme]}
           showsUserLocation={true}
           zoomEnabled={true}
           provider="google"

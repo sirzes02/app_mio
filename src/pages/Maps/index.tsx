@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, PermissionsAndroid, StyleSheet, View } from 'react-native';
+import { Alert, PermissionsAndroid, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import Geolocation from 'react-native-geolocation-service';
-import Stations, { stationData } from './src/Stations';
+import Stations, { stationData } from '../../data/Stations';
+import styles from './styles';
 
-const App = () => {
+const Map = () => {
   const [currentLatitude, setCurrentLatitude] = useState<number>(0);
   const [currentLongitude, setCurrentLongitude] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
-  const [stations, setStations] = useState<stationData[]>([]);
+  const stations: stationData[] = Stations;
 
   const checkPermissions = async () => {
     const granted = await PermissionsAndroid.request(
@@ -30,7 +31,6 @@ const App = () => {
           setCurrentLatitude(latitude);
           setCurrentLongitude(longitude);
           setLoading(false);
-          setStations(Stations);
         },
         error => {
           console.log(error.code, error.message);
@@ -66,32 +66,18 @@ const App = () => {
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           }}>
-          {stations.map((station, index) => {
-            const { latitude, longitude } = station;
-
-            return (
-              <Marker
-                key={index}
-                title={station.name}
-                description={station.description}
-                coordinate={{ latitude, longitude }}
-              />
-            );
-          })}
+          {stations.map(({ latitude, longitude, name, description }, index) => (
+            <Marker
+              key={index}
+              title={name}
+              description={description}
+              coordinate={{ latitude, longitude }}
+            />
+          ))}
         </MapView>
       )}
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  MainContainer: {
-    display: 'flex',
-  },
-  mapStyle: {
-    width: '100%',
-    height: '100%',
-  },
-});
-
-export default App;
+export default Map;

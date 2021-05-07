@@ -31,6 +31,7 @@ const Routes: React.FC = () => {
 
   useEffect(() => {
     getStorage();
+
     const subscriber = auth().onAuthStateChanged(user => {
       setUser(user);
       if (initializing) setInitializing(false);

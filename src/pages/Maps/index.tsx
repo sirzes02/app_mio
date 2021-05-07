@@ -11,6 +11,7 @@ import Geolocation from 'react-native-geolocation-service';
 import Callout from '../../components/Callout';
 
 import styles from './styles';
+import Loader from '../../components/Loader';
 
 const Map: React.FC = () => {
   const [currentLatitude, setCurrentLatitude] = useState<number>(0);
@@ -71,7 +72,9 @@ const Map: React.FC = () => {
 
   return (
     <View style={styles.MainContainer}>
-      {!loading && (
+      {loading ? (
+        <Loader />
+      ) : (
         <MapView
           style={styles.mapStyle}
           customMapStyle={themes[theme]}

@@ -3,10 +3,11 @@ import {
   DarkTheme,
   DefaultTheme,
   NavigationContainer,
+  Theme,
 } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { ThemeName } from './data/MapStyle';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import SyncStorage from '@react-native-community/async-storage';
 
 import Login from './pages/Login';
 import Header from './components/Header';
@@ -15,12 +16,21 @@ import CloseSesion from './components/CloseSesion';
 import Station from './pages/Station';
 
 const Routes: React.FC = () => {
-  const [themeName, setThemeName] = useState<ThemeName>('light');
+  const [themeName, setThemeName] = useState<string>('light');
   const [initializing, setInitializing] = useState<boolean>(true);
   const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
+
   const Stack = createStackNavigator();
 
+  const getStorage = async () => {
+    const themeStorage: string = (await SyncStorage.getItem('dark')) ?? 'light';
+    setThemeName(themeStorage);
+  };
+
+  const theme: Theme = themeName === 'dark' ? DarkTheme : DefaultTheme;
+
   useEffect(() => {
+    getStorage();
     const subscriber = auth().onAuthStateChanged(user => {
       setUser(user);
       if (initializing) setInitializing(false);
@@ -32,8 +42,7 @@ const Routes: React.FC = () => {
 
   if (!user) {
     return (
-      <NavigationContainer
-        theme={themeName === 'dark' ? DarkTheme : DefaultTheme}>
+      <NavigationContainer theme={theme}>
         <Stack.Navigator>
           <Stack.Screen
             name="Login"
@@ -55,11 +64,11 @@ const Routes: React.FC = () => {
   }
 
   return (
-    <NavigationContainer
-      theme={themeName === 'dark' ? DarkTheme : DefaultTheme}>
+    <NavigationContainer theme={theme}>
       <Stack.Navigator>
         <Stack.Screen
           name="Mapa"
+          component={Map}
           options={{
             headerTitle: () => (
               <Header
@@ -70,9 +79,8 @@ const Routes: React.FC = () => {
               />
             ),
             headerRight: () => <CloseSesion />,
-          }}>
-          {props => <Map {...props} currentTheme={themeName} />}
-        </Stack.Screen>
+          }}
+        />
         <Stack.Screen
           name="Estacion"
           component={Station}

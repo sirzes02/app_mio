@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import {
   GoogleSignin,
   GoogleSigninButton,
@@ -21,7 +21,7 @@ async function onGoogleButtonPress() {
 
 const Login: React.FC = () => {
   return (
-    <View>
+    <View style={styles.container}>
       <GoogleSigninButton
         style={{ width: 192, height: 48 }}
         size={GoogleSigninButton.Size.Wide}
@@ -31,5 +31,14 @@ const Login: React.FC = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    height: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
 
 export default Login;

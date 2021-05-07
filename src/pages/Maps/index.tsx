@@ -1,27 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { Alert, PermissionsAndroid, View } from 'react-native';
-import { ThemeName, themes } from '../../data/MapStyle';
+import { themes } from '../../data/MapStyle';
 import MapView, { Marker } from 'react-native-maps';
 import firestore, {
   FirebaseFirestoreTypes,
 } from '@react-native-firebase/firestore';
+import { useTheme } from '@react-navigation/native';
 import Geolocation from 'react-native-geolocation-service';
 
 import Callout from '../../components/Callout';
 
 import styles from './styles';
 
-interface Props {
-  currentTheme: ThemeName;
-}
-
-const Map: React.FC<Props> = ({ currentTheme }) => {
+const Map: React.FC = () => {
   const [currentLatitude, setCurrentLatitude] = useState<number>(0);
   const [currentLongitude, setCurrentLongitude] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
   const [stations, setStations] = useState<
     FirebaseFirestoreTypes.DocumentData[]
   >([]);
+
+  const theme = useTheme().dark ? 'dark' : 'light';
 
   const checkPermissions = async () => {
     const granted = await PermissionsAndroid.request(
@@ -45,9 +44,7 @@ const Map: React.FC<Props> = ({ currentTheme }) => {
 
           fetchData();
         },
-        error => {
-          console.log(error.code, error.message);
-        },
+        error => console.log(error.code, error.message),
         {
           enableHighAccuracy: true,
           timeout: 10000,
@@ -77,7 +74,7 @@ const Map: React.FC<Props> = ({ currentTheme }) => {
       {!loading && (
         <MapView
           style={styles.mapStyle}
-          customMapStyle={themes[currentTheme]}
+          customMapStyle={themes[theme]}
           showsUserLocation={true}
           zoomEnabled={true}
           provider="google"

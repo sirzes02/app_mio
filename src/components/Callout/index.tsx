@@ -20,7 +20,7 @@ const Callout: React.FC<Props> = ({ name, id, votes }) => {
 
   type mapScreenProp = StackNavigationProp<RootStackParamList, 'Mapa'>;
   const navigation = useNavigation<mapScreenProp>();
-  const isDark: boolean = useTheme().dark;
+  const { dark } = useTheme();
 
   return (
     <Call
@@ -32,19 +32,19 @@ const Callout: React.FC<Props> = ({ name, id, votes }) => {
         <View
           style={{
             ...styles.bubble,
-            backgroundColor: isDark ? 'black' : 'white',
+            backgroundColor: dark ? 'black' : 'white',
           }}>
           <View style={styles.amount}>
             <View>
               <Text
-                style={{ ...styles.text, color: !isDark ? 'black' : 'white' }}>
+                style={{ ...styles.text, color: !dark ? 'black' : 'white' }}>
                 {name}
               </Text>
               <View
                 style={{
                   ...styles.circle,
                   backgroundColor: colorSelector,
-                  borderColor: !isDark ? 'black' : 'white',
+                  borderColor: !dark ? 'black' : 'white',
                 }}
               />
             </View>

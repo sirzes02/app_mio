@@ -19,6 +19,7 @@ import Header from './components/Header';
 import Map from './pages/Maps';
 import CloseSesion from './components/CloseSesion';
 import Station from './pages/Station';
+import Loader from './components/Loader';
 
 const Routes: React.FC = () => {
   const [themeName, setThemeName] = useState<string>('light');
@@ -36,87 +37,91 @@ const Routes: React.FC = () => {
     checkPermissions();
     getStorage();
 
-    const subscriber = auth().onAuthStateChanged(user => {
+    const subscriber: () => void = auth().onAuthStateChanged(user => {
       setUser(user);
       if (initializing) setInitializing(false);
     });
+
     return subscriber;
   }, []);
 
   const checkPermissions = async () => {
-    const granted: PermissionStatus = await PermissionsAndroid.request(
+    await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
       {
         title: 'Mio APP Camera Permission',
         message: 'Mio App needs access to your location so you can check.',
-        buttonNeutral: 'Ask Me Later',
         buttonNegative: 'Cancel',
         buttonPositive: 'OK',
       },
-    );
-
-    if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
-      Alert.alert('Permissions Denied');
-      BackHandler.exitApp();
-    }
+    ).then((res: PermissionStatus) => {
+      if (res !== PermissionsAndroid.RESULTS.GRANTED) {
+        Alert.alert('Permissions Denied');
+        BackHandler.exitApp();
+      }
+    });
   };
 
-  if (initializing) return null;
-
   return (
-    <NavigationContainer
-      theme={themeName === 'dark' ? DarkTheme : DefaultTheme}>
-      {!user ? (
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Login"
-            component={Login}
-            options={{
-              headerTitle: () => (
-                <Header
-                  iconName="user"
-                  title="Inicio de Sesión"
-                  themeName={themeName}
-                  setThemeName={setThemeName}
-                />
-              ),
-            }}
-          />
-        </Stack.Navigator>
+    <>
+      {initializing ? (
+        <Loader />
       ) : (
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Mapa"
-            component={Map}
-            options={{
-              headerTitle: () => (
-                <Header
-                  iconName="map"
-                  title="Mapa"
-                  themeName={themeName}
-                  setThemeName={setThemeName}
-                />
-              ),
-              headerRight: () => <CloseSesion />,
-            }}
-          />
-          <Stack.Screen
-            name="Estacion"
-            component={Station}
-            options={{
-              headerTitle: () => (
-                <Header
-                  iconName="bus"
-                  title="Estación"
-                  themeName={themeName}
-                  setThemeName={setThemeName}
-                />
-              ),
-            }}
-          />
-        </Stack.Navigator>
+        <NavigationContainer
+          theme={themeName === 'dark' ? DarkTheme : DefaultTheme}>
+          {!user ? (
+            <Stack.Navigator>
+              <Stack.Screen
+                name="Login"
+                component={Login}
+                options={{
+                  headerTitle: () => (
+                    <Header
+                      iconName="user"
+                      title="Inicio de Sesión"
+                      themeName={themeName}
+                      setThemeName={setThemeName}
+                    />
+                  ),
+                }}
+              />
+            </Stack.Navigator>
+          ) : (
+            <Stack.Navigator>
+              <Stack.Screen
+                name="Mapa"
+                component={Map}
+                options={{
+                  headerTitle: () => (
+                    <Header
+                      iconName="map"
+                      title="Mapa"
+                      themeName={themeName}
+                      setThemeName={setThemeName}
+                    />
+                  ),
+                  headerRight: () => <CloseSesion />,
+                }}
+              />
+              <Stack.Screen
+                name="Estacion"
+                component={Station}
+                options={{
+                  headerTitle: () => (
+                    <Header
+                      iconName="bus"
+                      title="Estación"
+                      themeName={themeName}
+                      setThemeName={setThemeName}
+                    />
+                  ),
+                }}
+              />
+            </Stack.Navigator>
+          )}
+        </NavigationContainer>
       )}
-    </NavigationContainer>
+    </>
   );
 };
 

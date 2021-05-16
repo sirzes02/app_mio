@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import {
+  Alert,
+  PermissionsAndroid,
+  PermissionStatus,
+  BackHandler,
+} from 'react-native';
+import {
   DarkTheme,
   DefaultTheme,
   NavigationContainer,
-  Theme,
 } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
@@ -27,9 +32,8 @@ const Routes: React.FC = () => {
     setThemeName(themeStorage);
   };
 
-  const theme: Theme = themeName === 'dark' ? DarkTheme : DefaultTheme;
-
   useEffect(() => {
+    checkPermissions();
     getStorage();
 
     const subscriber = auth().onAuthStateChanged(user => {
@@ -39,11 +43,30 @@ const Routes: React.FC = () => {
     return subscriber;
   }, []);
 
+  const checkPermissions = async () => {
+    const granted: PermissionStatus = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      {
+        title: 'Mio APP Camera Permission',
+        message: 'Mio App needs access to your location so you can check.',
+        buttonNeutral: 'Ask Me Later',
+        buttonNegative: 'Cancel',
+        buttonPositive: 'OK',
+      },
+    );
+
+    if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
+      Alert.alert('Permissions Denied');
+      BackHandler.exitApp();
+    }
+  };
+
   if (initializing) return null;
 
-  if (!user) {
-    return (
-      <NavigationContainer theme={theme}>
+  return (
+    <NavigationContainer
+      theme={themeName === 'dark' ? DarkTheme : DefaultTheme}>
+      {!user ? (
         <Stack.Navigator>
           <Stack.Screen
             name="Login"
@@ -60,43 +83,39 @@ const Routes: React.FC = () => {
             }}
           />
         </Stack.Navigator>
-      </NavigationContainer>
-    );
-  }
-
-  return (
-    <NavigationContainer theme={theme}>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Mapa"
-          component={Map}
-          options={{
-            headerTitle: () => (
-              <Header
-                iconName="map"
-                title="Mapa"
-                themeName={themeName}
-                setThemeName={setThemeName}
-              />
-            ),
-            headerRight: () => <CloseSesion />,
-          }}
-        />
-        <Stack.Screen
-          name="Estacion"
-          component={Station}
-          options={{
-            headerTitle: () => (
-              <Header
-                iconName="bus"
-                title="Estación"
-                themeName={themeName}
-                setThemeName={setThemeName}
-              />
-            ),
-          }}
-        />
-      </Stack.Navigator>
+      ) : (
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Mapa"
+            component={Map}
+            options={{
+              headerTitle: () => (
+                <Header
+                  iconName="map"
+                  title="Mapa"
+                  themeName={themeName}
+                  setThemeName={setThemeName}
+                />
+              ),
+              headerRight: () => <CloseSesion />,
+            }}
+          />
+          <Stack.Screen
+            name="Estacion"
+            component={Station}
+            options={{
+              headerTitle: () => (
+                <Header
+                  iconName="bus"
+                  title="Estación"
+                  themeName={themeName}
+                  setThemeName={setThemeName}
+                />
+              ),
+            }}
+          />
+        </Stack.Navigator>
+      )}
     </NavigationContainer>
   );
 };

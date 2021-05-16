@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, PermissionsAndroid, View } from 'react-native';
+import { View } from 'react-native';
 import { themes } from '../../data/MapStyle';
 import MapView, { Marker } from 'react-native-maps';
 import firestore, {
@@ -9,9 +9,9 @@ import { useTheme } from '@react-navigation/native';
 import Geolocation from 'react-native-geolocation-service';
 
 import Callout from '../../components/Callout';
+import Loader from '../../components/Loader';
 
 import styles from './styles';
-import Loader from '../../components/Loader';
 
 const Map: React.FC = () => {
   const [currentLatitude, setCurrentLatitude] = useState<number>(0);
@@ -23,40 +23,6 @@ const Map: React.FC = () => {
 
   const theme: 'dark' | 'light' = useTheme().dark ? 'dark' : 'light';
 
-  const checkPermissions = async () => {
-    const granted = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-      {
-        title: 'Mio APP Camera Permission',
-        message: 'Mio App needs access to your location so you can check.',
-        buttonNeutral: 'Ask Me Later',
-        buttonNegative: 'Cancel',
-        buttonPositive: 'OK',
-      },
-    );
-
-    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-      Geolocation.getCurrentPosition(
-        position => {
-          const { latitude, longitude } = position.coords;
-
-          setCurrentLatitude(latitude);
-          setCurrentLongitude(longitude);
-
-          fetchData();
-        },
-        error => console.log(error.code, error.message),
-        {
-          enableHighAccuracy: true,
-          timeout: 10000,
-          maximumAge: 10000,
-        },
-      );
-    } else {
-      Alert.alert('Permissions Denied');
-    }
-  };
-
   const fetchData = async () => {
     const stationsCollections: FirebaseFirestoreTypes.QueryDocumentSnapshot[] = (
       await firestore().collection('estaciones').get()
@@ -67,7 +33,14 @@ const Map: React.FC = () => {
   };
 
   useEffect(() => {
-    checkPermissions();
+    Geolocation.getCurrentPosition(position => {
+      const { latitude, longitude } = position.coords;
+
+      setCurrentLatitude(latitude);
+      setCurrentLongitude(longitude);
+
+      fetchData();
+    });
   }, []);
 
   return (

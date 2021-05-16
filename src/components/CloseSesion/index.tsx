@@ -6,7 +6,7 @@ import auth from '@react-native-firebase/auth';
 import styles from './styles';
 
 const CloseSesion: React.FC = () => {
-  const logOut = async () => {
+  const logOut = async () =>
     Alert.alert('Cerrar Sesión', '¿Estas seguro que deseas cerrar sesión?', [
       {
         text: 'Cancelar',
@@ -20,7 +20,6 @@ const CloseSesion: React.FC = () => {
         },
       },
     ]);
-  };
 
   return (
     <TouchableHighlight

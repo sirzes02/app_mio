@@ -21,7 +21,7 @@ const Map: React.FC = () => {
     FirebaseFirestoreTypes.DocumentData[]
   >([]);
 
-  const theme = useTheme().dark ? 'dark' : 'light';
+  const theme: 'dark' | 'light' = useTheme().dark ? 'dark' : 'light';
 
   const checkPermissions = async () => {
     const granted = await PermissionsAndroid.request(
@@ -58,7 +58,7 @@ const Map: React.FC = () => {
   };
 
   const fetchData = async () => {
-    const stationsCollections = (
+    const stationsCollections: FirebaseFirestoreTypes.QueryDocumentSnapshot[] = (
       await firestore().collection('estaciones').get()
     ).docs;
 

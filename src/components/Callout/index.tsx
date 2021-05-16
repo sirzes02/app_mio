@@ -14,7 +14,7 @@ interface Props {
   votes: number;
 }
 
-const arrColor: string[] = ['green', 'red', 'yellow'];
+const arrColor: string[] = ['green', 'yellow', 'red'];
 
 const Callout: React.FC<Props> = ({ name, id, votes }) => {
   const val: number = votes <= 10 ? 0 : votes <= 20 ? 1 : 2;
@@ -27,7 +27,9 @@ const Callout: React.FC<Props> = ({ name, id, votes }) => {
   return (
     <Call
       tooltip={true}
-      onPress={() => navigation.navigate('Estacion', { name, id })}>
+      onPress={() =>
+        navigation.navigate('Estacion', { name, id, colorSelector })
+      }>
       <View style={styles.container}>
         <View style={styles.bubble}>
           <View style={styles.amount}>

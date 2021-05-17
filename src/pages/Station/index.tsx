@@ -1,14 +1,20 @@
 import React from 'react';
 import { RouteProp, useNavigation, useTheme } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { Alert, Text, TouchableHighlight, View } from 'react-native';
+import { Alert } from 'react-native';
 import firestore, {
   FirebaseFirestoreTypes,
 } from '@react-native-firebase/firestore';
 
 import { RootStackParamList } from '../../@types/RoutesTypes';
 
-import styles from './styles';
+import {
+  Container,
+  NameContainer,
+  TextName,
+  Boton,
+  TextButton,
+} from './styles';
 import { useState } from 'react';
 
 type Props = {
@@ -66,24 +72,14 @@ const Station: React.FC<Props> = ({ route }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <View
-        style={{
-          backgroundColor: colorSelector,
-          ...styles.nameContainer,
-        }}>
-        <Text style={{ ...styles.textName, color: isDark ? 'white' : 'black' }}>
-          {name}
-        </Text>
-      </View>
-      <TouchableHighlight
-        disabled={loading}
-        style={styles.boton}
-        underlayColor="#f5baba"
-        onPress={handlePress}>
-        <Text style={styles.textBotton}>Reportar</Text>
-      </TouchableHighlight>
-    </View>
+    <Container>
+      <NameContainer color={colorSelector}>
+        <TextName isDark={isDark}>{name}</TextName>
+      </NameContainer>
+      <Boton disabled={loading} underlayColor="#f5baba" onPress={handlePress}>
+        <TextButton>Reportar</TextButton>
+      </Boton>
+    </Container>
   );
 };
 

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
 import {
   GoogleSignin,
   GoogleSigninButton,
@@ -9,7 +8,7 @@ import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 
 import Loader from '../../components/Loader';
 
-import styles from './styles';
+import { Container, Loading } from './styles';
 
 GoogleSignin.configure({
   webClientId:
@@ -38,7 +37,7 @@ const Login: React.FC = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <Container>
       <GoogleSigninButton
         disabled={loading}
         style={{ width: 192, height: 48 }}
@@ -47,11 +46,11 @@ const Login: React.FC = () => {
         onPress={onGoogleButtonPress}
       />
       {loading && (
-        <View style={styles.loading}>
+        <Loading>
           <Loader />
-        </View>
+        </Loading>
       )}
-    </View>
+    </Container>
   );
 };
 

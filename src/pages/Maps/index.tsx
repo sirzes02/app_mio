@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
 import { themes } from '../../data/MapStyle';
 import MapView, { Marker } from 'react-native-maps';
 import firestore, {
@@ -11,7 +10,7 @@ import Geolocation from 'react-native-geolocation-service';
 import Callout from '../../components/Callout';
 import Loader from '../../components/Loader';
 
-import styles from './styles';
+import { Container } from './styles';
 
 const Map: React.FC = () => {
   const [currentLatitude, setCurrentLatitude] = useState<number>(0);
@@ -44,12 +43,12 @@ const Map: React.FC = () => {
   }, []);
 
   return (
-    <View style={styles.MainContainer}>
+    <Container>
       {loading ? (
         <Loader />
       ) : (
         <MapView
-          style={styles.mapStyle}
+          style={{ width: '100%', height: '100%' }}
           customMapStyle={themes[theme]}
           showsUserLocation={true}
           zoomEnabled={true}
@@ -75,7 +74,7 @@ const Map: React.FC = () => {
           )}
         </MapView>
       )}
-    </View>
+    </Container>
   );
 };
 

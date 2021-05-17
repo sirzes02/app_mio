@@ -1,12 +1,11 @@
 import React from 'react';
-import { Text, View } from 'react-native';
 import { Callout as Call } from 'react-native-maps';
 import { useNavigation, useTheme } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 import { RootStackParamList } from '../../@types/RoutesTypes';
 
-import styles from './styles';
+import { Container, Bubble, Amount, Text, Circle } from './styles';
 
 interface Props {
   name: string;
@@ -28,29 +27,14 @@ const Callout: React.FC<Props> = ({ name, id, votes }) => {
       onPress={() =>
         navigation.navigate('Estacion', { name, id, colorSelector })
       }>
-      <View style={styles.container}>
-        <View
-          style={{
-            ...styles.bubble,
-            backgroundColor: dark ? 'black' : 'white',
-          }}>
-          <View style={styles.amount}>
-            <View>
-              <Text
-                style={{ ...styles.text, color: !dark ? 'black' : 'white' }}>
-                {name}
-              </Text>
-              <View
-                style={{
-                  ...styles.circle,
-                  backgroundColor: colorSelector,
-                  borderColor: !dark ? 'black' : 'white',
-                }}
-              />
-            </View>
-          </View>
-        </View>
-      </View>
+      <Container>
+        <Bubble dark={dark}>
+          <Amount>
+            <Text dark={dark}>{name}</Text>
+            <Circle color={colorSelector} dark={dark} />
+          </Amount>
+        </Bubble>
+      </Container>
     </Call>
   );
 };

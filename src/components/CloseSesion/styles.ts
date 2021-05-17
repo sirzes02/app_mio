@@ -1,19 +1,15 @@
-import { StyleSheet } from 'react-native';
+import styled from 'styled-components/native';
 
-const styles = StyleSheet.create({
-  boton: {
-    display: 'flex',
-    justifyContent: 'center',
-    height: '65%',
-    paddingHorizontal: 25,
-    borderRadius: 25,
-    borderColor: 'red',
-    borderWidth: 1,
-    marginRight: 15,
-  },
-  texto: {
-    color: 'red',
-  },
-});
+export const Button = styled.TouchableHighlight`
+  display: flex;
+  justify-content: center;
+  height: 65%;
+  padding: 0 25px 0 25px;
+  border: 1px solid ${'red'};
+  margin-right: 15px;
+  border-radius: 25px;
+`;
 
-export default styles;
+export const Text = styled.Text`
+  color: ${'red'};
+`;

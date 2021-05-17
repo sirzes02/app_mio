@@ -1,37 +1,39 @@
-import { StyleSheet } from 'react-native';
+import styled from 'styled-components/native';
 
-const styles = StyleSheet.create({
-  container: {
-    display: 'flex',
-    alignItems: 'center',
-    flexDirection: 'column',
-    height: '90%',
-    justifyContent: 'space-between',
-  },
-  nameContainer: {
-    marginVertical: 30,
-    paddingVertical: 40,
-    paddingHorizontal: 80,
-    borderWidth: 3,
-    borderRadius: 25,
-    opacity: 0.5,
-    borderColor: 'black',
-  },
-  textName: {
-    fontSize: 30,
-    textAlign: 'center',
-  },
-  boton: {
-    paddingHorizontal: 100,
-    paddingVertical: 10,
-    borderRadius: 25,
-    borderColor: 'red',
-    borderWidth: 2,
-    marginRight: 15,
-  },
-  textBotton: {
-    color: 'red',
-  },
-});
+export const Container = styled.View`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: 90%;
+  justify-content: space-between;
+`;
 
-export default styles;
+export const NameContainer = styled.View<{
+  color: string;
+}>`
+  margin: 30px 0 30px;
+  padding: 30px 80px 30px 80px;
+  border: 3px solid ${'black'};
+  border-radius: 25px;
+  opacity: 0.5;
+  background-color: ${props => props.color};
+`;
+
+export const TextName = styled.Text<{
+  isDark: boolean;
+}>`
+  font-size: 30px;
+  text-align: center;
+  color: ${props => (props.isDark ? 'white' : 'black')};
+`;
+
+export const Boton = styled.TouchableHighlight`
+  padding: 10px 100px 10px 100px;
+  border: 2px solid ${'red'};
+  border-radius: 25px;
+  margin-right: 15px;
+`;
+
+export const TextButton = styled.Text`
+  color: ${'red'};
+`;

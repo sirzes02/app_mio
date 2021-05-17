@@ -1,12 +1,10 @@
 import React from 'react';
-import { Text } from 'react-native';
-import { View } from 'react-native';
 import { ThemeName } from '../../data/MapStyle';
 import { useTheme } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import SyncStorage from '@react-native-community/async-storage';
 
-import styles from './styles';
+import { Container, Title } from './styles';
 
 interface Props {
   iconName: string;
@@ -29,7 +27,7 @@ const components: React.FC<Props> = ({
   }
 
   return (
-    <View style={styles.headerContainer}>
+    <Container>
       <Icon
         style={{ color: colors.text }}
         name={iconName}
@@ -37,14 +35,8 @@ const components: React.FC<Props> = ({
         light
         onPress={toggleTheme}
       />
-      <Text
-        style={{
-          ...styles.titleStyle,
-          color: colors.text,
-        }}>
-        {title}
-      </Text>
-    </View>
+      <Title color={colors.text}>{title}</Title>
+    </Container>
   );
 };
 

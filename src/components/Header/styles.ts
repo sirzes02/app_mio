@@ -1,15 +1,13 @@
-import { StyleSheet } from 'react-native';
+import styled from 'styled-components/native';
 
-const styles = StyleSheet.create({
-  headerContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  titleStyle: {
-    paddingLeft: 10,
-    fontSize: 20,
-  },
-});
+export const Container = styled.View`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
 
-export default styles;
+export const Title = styled.Text<{ color: string }>`
+  padding-left: 10px;
+  font-size: 20px;
+  color: ${props => props.color};
+`;

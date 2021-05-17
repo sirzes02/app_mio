@@ -1,9 +1,9 @@
 import React from 'react';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import { TouchableHighlight, Text, Alert } from 'react-native';
+import { Alert } from 'react-native';
 import auth from '@react-native-firebase/auth';
 
-import styles from './styles';
+import { Button, Text } from './styles';
 
 const CloseSesion: React.FC = () => {
   const logOut = async () =>
@@ -22,12 +22,9 @@ const CloseSesion: React.FC = () => {
     ]);
 
   return (
-    <TouchableHighlight
-      style={styles.boton}
-      onPress={logOut}
-      underlayColor="#f5baba">
-      <Text style={styles.texto}>Salir</Text>
-    </TouchableHighlight>
+    <Button onPress={logOut} underlayColor="#f5baba">
+      <Text>Salir</Text>
+    </Button>
   );
 };
 

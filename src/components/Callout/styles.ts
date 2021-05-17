@@ -1,31 +1,35 @@
-import { StyleSheet } from 'react-native';
+import styled from 'styled-components/native';
 
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'column',
-  },
-  bubble: {
-    backgroundColor: 'white',
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    borderRadius: 6,
-    borderColor: 'black',
-    borderWidth: 1,
-  },
-  amount: {
-    display: 'flex',
-  },
-  text: {
-    paddingBottom: 5,
-  },
-  circle: {
-    width: 15,
-    height: 15,
-    borderRadius: 7,
-    borderWidth: 1,
-    borderColor: 'black',
-    alignSelf: 'center',
-  },
-});
+export const Container = styled.View`
+  flex-direction: column;
+`;
 
-export default styles;
+interface PropsDark {
+  dark: boolean;
+}
+
+export const Bubble = styled.View<PropsDark>`
+  background-color: ${'white'};
+  padding: 12px 20px 12px 20px;
+  border: 1px solid ${'black'};
+  border-radius: 6px;
+  background-color: ${props => (props.dark ? 'black' : 'white')};
+`;
+
+export const Amount = styled.View`
+  display: flex;
+`;
+
+export const Text = styled.Text<PropsDark>`
+  padding-bottom: 5px;
+  color: ${props => (!props.dark ? 'black' : 'white')};
+`;
+
+export const Circle = styled.View<{ color: string; dark: boolean }>`
+  width: 15px;
+  height: 15px;
+  border: 1px solid ${props => (!props.dark ? 'black' : 'white')};
+  border-radius: 7px;
+  background-color: ${props => props.color + ''};
+  align-self: center;
+`;

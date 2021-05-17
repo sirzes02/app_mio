@@ -1,15 +1,12 @@
-import { StyleSheet } from 'react-native';
+import styled from 'styled-components/native';
 
-const styles = StyleSheet.create({
-  container: {
-    height: '100%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  loading: {
-    height: '50%',
-  },
-});
+export const Container = styled.View`
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
-export default styles;
+export const Loading = styled.View`
+  height: 50%;
+`;

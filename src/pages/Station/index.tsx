@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { RouteProp, useNavigation, useTheme } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { Alert } from 'react-native';
@@ -15,7 +15,6 @@ import {
   Boton,
   TextButton,
 } from './styles';
-import { useState } from 'react';
 
 type Props = {
   route: RouteProp<RootStackParamList, 'Estacion'>;
